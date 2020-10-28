@@ -4,6 +4,6 @@ namespace Data.Models
 {
     public class HttpRequest : HttpRequestNoHeader
     {
-        public List<HttpHeader> Headers { get; set; }
+        public virtual List<HttpHeader> Headers { get; set; }
     }
 }
