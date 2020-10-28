@@ -21,7 +21,8 @@ namespace Data
             // Set one to many relationship between HttpHeader and HttpRequest
             modelBuilder.Entity<HttpHeader>()
                 .HasOne(h => h.HttpRequest)
-                .WithMany(r => r.Headers);
+                .WithMany(r => r.Headers)
+                .HasForeignKey(h => h.HttpRequestId);
         }
     }
 }

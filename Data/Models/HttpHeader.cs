@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Data.Models.Common;
 
 namespace Data.Models
@@ -11,6 +12,7 @@ namespace Data.Models
         public string Value { get; set; }
 
         [Required]
-        public HttpRequest HttpRequest { get; set; }
+        public int HttpRequestId { get; set; }
+        public virtual HttpRequest HttpRequest { get; set; }
     }
 }

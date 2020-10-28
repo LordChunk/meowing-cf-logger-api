@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Data;
+using Data.Models;
 using HttpRequest = Data.Models.HttpRequest;
 
 namespace API.Controllers
@@ -74,8 +76,9 @@ namespace API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<HttpRequest>> PostHttpRequest(HttpRequest httpRequest)
+        public async Task<ActionResult<HttpRequest>> PostHttpRequest(HttpRequestDto dto)
         {
+            var httpRequest = ConvertDtoToModel(dto);
             await _context.HttpRequests.AddAsync(httpRequest);
             await _context.SaveChangesAsync();
 
@@ -101,6 +104,40 @@ namespace API.Controllers
         private bool HttpRequestExists(int id)
         {
             return _context.HttpRequests.Any(e => e.Id == id);
+        }
+
+        private HttpRequest ConvertDtoToModel(HttpRequestDto dto)
+        {
+            var model = new HttpRequest()
+            {
+                Body = dto.Body,
+                BodyUsed = dto.BodyUsed,
+                Cf = dto.Cf,
+                ContentLength = dto.ContentLength,
+                Fetchers = dto.Fetchers,
+                //Headers = 
+                Id = dto.Id,
+                Method = dto.Method,
+                Redirect = dto.Redirect,
+                Url = dto.Url,
+            };
+
+            var headerList = new List<HttpHeader>();
+
+            dto.Headers.ForEach(header =>
+            {
+                headerList.Add(new HttpHeader()
+                {
+                    Header = header[0],
+                    Value = header[1],
+                    HttpRequestId = model.Id,
+                    HttpRequest = model,
+                });
+            });
+
+            model.Headers = headerList;
+
+            return model;
         }
     }
 }
