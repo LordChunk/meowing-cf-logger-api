@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(MeowingCfLoggerContext))]
-    [Migration("20201028121005_InitialCreate")]
+    [Migration("20201028122202_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,20 +89,19 @@ namespace Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Header")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("HttpRequestId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("HttpRequestId1")
+                    b.Property<int>("HttpRequestId")
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HttpRequestId1");
+                    b.HasIndex("HttpRequestId");
 
                     b.ToTable("HttpHeaders");
                 });
@@ -130,12 +129,14 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Method")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Redirect")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -252,7 +253,9 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Models.HttpRequest", "HttpRequest")
                         .WithMany("Headers")
-                        .HasForeignKey("HttpRequestId1");
+                        .HasForeignKey("HttpRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Models.HttpRequest", b =>

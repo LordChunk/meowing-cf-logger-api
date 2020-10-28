@@ -88,9 +88,9 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: false),
                     CfId = table.Column<int>(nullable: true),
-                    Method = table.Column<string>(nullable: true),
+                    Method = table.Column<string>(nullable: false),
                     Body = table.Column<string>(nullable: true),
                     Fetchers = table.Column<string>(nullable: true),
                     BodyUsed = table.Column<bool>(nullable: false),
@@ -114,20 +114,19 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Header = table.Column<string>(nullable: true),
-                    Value = table.Column<string>(nullable: true),
-                    HttpRequestId = table.Column<string>(nullable: true),
-                    HttpRequestId1 = table.Column<int>(nullable: true)
+                    Header = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: false),
+                    HttpRequestId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HttpHeaders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HttpHeaders_HttpRequests_HttpRequestId1",
-                        column: x => x.HttpRequestId1,
+                        name: "FK_HttpHeaders_HttpRequests_HttpRequestId",
+                        column: x => x.HttpRequestId,
                         principalTable: "HttpRequests",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -141,9 +140,9 @@ namespace Data.Migrations
                 column: "TlsExportedAuthenticatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HttpHeaders_HttpRequestId1",
+                name: "IX_HttpHeaders_HttpRequestId",
                 table: "HttpHeaders",
-                column: "HttpRequestId1");
+                column: "HttpRequestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HttpRequests_CfId",
