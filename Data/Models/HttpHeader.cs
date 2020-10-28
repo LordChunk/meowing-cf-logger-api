@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Data.Models
 {
-    public class HttpHeader : EntityBase
+    public class HttpHeader
     {
         [Required]
         public string Header { get; set; }

@@ -23,6 +23,10 @@ namespace Data
                 .HasOne(h => h.HttpRequest)
                 .WithMany(r => r.Headers)
                 .HasForeignKey(h => h.HttpRequestId);
+
+            // Set composite key for HttpHeader
+            modelBuilder.Entity<HttpHeader>()
+                .HasKey(r => new {r.Header, r.HttpRequestId});
         }
     }
 }

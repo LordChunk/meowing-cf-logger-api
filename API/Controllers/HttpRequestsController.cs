@@ -25,14 +25,14 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HttpRequest>>> GetHttpRequests()
         {
-            return await _context.HttpRequests.ToListAsync();
+            return await _context.HttpRequests.Include(r => r.Headers).ToListAsync();
         }
 
         // GET: api/HttpRequests/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HttpRequest>> GetHttpRequest(int id)
         {
-            var httpRequest = await _context.HttpRequests.FindAsync(id);
+            var httpRequest = await _context.HttpRequests.Include(r => r.Headers).FirstOrDefaultAsync(r => r.Id == id);
 
             if (httpRequest == null)
             {
