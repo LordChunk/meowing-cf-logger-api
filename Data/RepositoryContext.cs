@@ -22,7 +22,7 @@ namespace Data
             {
                 //optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MeowingCfLogger;Trusted_Connection=True;");
                 optionsBuilder.UseMySQL(
-                    @"server=192.168.1.10;database=meowingcflogger;user=meowingcflogger;password=D&dz9Nv*#qQF4dxM&g#3iVUP5NXog&%xi8^Kujmm8VCzPsaMZJrX&cue$UCnJq^^Gf"
+                    @"server=192.168.1.10;database=meowingcflogger;uid=meowingcflogger;pwd=D&dz9Nv*#qQF4dxM&g#3iVUP5NXog&%xi8^Kujmm8VCzPsaMZJrX&cue$UCnJq^^Gf"
                     );
             }
         }
