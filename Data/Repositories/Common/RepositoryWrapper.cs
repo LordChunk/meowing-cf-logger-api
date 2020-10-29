@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories.Common
 {
@@ -20,7 +21,7 @@ namespace Data.Repositories.Common
         public ITlsExportedAuthenticatorRepository TlsExportedAuthenticator => _tlsExportedAuthenticator ??= new TlsExportedAuthenticatorRepository(_repositoryContext);
 
 
-        public RepositoryWrapper(RepositoryContext repositoryContext) => _repositoryContext = repositoryContext;
+        public RepositoryWrapper() => _repositoryContext = new RepositoryContext(new DbContextOptions<RepositoryContext>());
         public async Task Save() => await _repositoryContext.SaveChangesAsync();
     }
 }
