@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
-    public class MeowingCfLoggerContext : DbContext
+    public class RepositoryContext : DbContext
     {
         // DbSets
         public DbSet<CfHttpHeader> CfHttpHeaders { get; set; }
@@ -12,8 +12,16 @@ namespace Data
         public DbSet<TlsClientAuth> TlsClientAuths { get; set; }
         public DbSet<TlsExportedAuthenticator> TlsExportedAuthenticators { get; set; }
 
-        public MeowingCfLoggerContext(DbContextOptions options) : base(options)
+        public RepositoryContext(DbContextOptions options) : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MeowingCfLogger;Trusted_Connection=True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

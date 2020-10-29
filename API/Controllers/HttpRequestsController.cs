@@ -14,9 +14,9 @@ namespace API.Controllers
     [ApiController]
     public class HttpRequestsController : ControllerBase
     {
-        private readonly MeowingCfLoggerContext _context;
+        private readonly RepositoryContext _context;
 
-        public HttpRequestsController(MeowingCfLoggerContext context)
+        public HttpRequestsController(RepositoryContext context)
         {
             _context = context;
         }
