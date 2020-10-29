@@ -20,7 +20,10 @@ namespace Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MeowingCfLogger;Trusted_Connection=True;");
+                //optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MeowingCfLogger;Trusted_Connection=True;");
+                optionsBuilder.UseMySQL(
+                    @"server=192.168.1.10;database=meowingcflogger;user=meowingcflogger;password=D&dz9Nv*#qQF4dxM&g#3iVUP5NXog&%xi8^Kujmm8VCzPsaMZJrX&cue$UCnJq^^Gf"
+                    );
             }
         }
 
