@@ -21,7 +21,12 @@ namespace Data.Repositories.Common
         public ITlsExportedAuthenticatorRepository TlsExportedAuthenticator => _tlsExportedAuthenticator ??= new TlsExportedAuthenticatorRepository(_repositoryContext);
 
 
-        public RepositoryWrapper() => _repositoryContext = new RepositoryContext(new DbContextOptions<RepositoryContext>());
+        public RepositoryWrapper()
+        {
+            _repositoryContext = new RepositoryContext(new DbContextOptions<RepositoryContext>());
+            _repositoryContext.Database.EnsureCreated();
+        }
+
         public async Task Save() => await _repositoryContext.SaveChangesAsync();
     }
 }

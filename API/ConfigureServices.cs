@@ -6,6 +6,7 @@ namespace API
 {
     public static class ConfigureServices
     {
-        public static void ConfigureRepositoryWrapper(this IServiceCollection services) => services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+        // Repository wrapper is instantiated as singleton to prevent it from checking whether the database is created on each request
+        public static void ConfigureRepositoryWrapper(this IServiceCollection services) => services.AddSingleton<IRepositoryWrapper, RepositoryWrapper>();
     }
 }

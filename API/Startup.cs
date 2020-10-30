@@ -1,4 +1,5 @@
 using Data;
+using Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,7 @@ namespace API
                 app.UseHttpsRedirection();
             }
 
-            //context.Database.EnsureCreated();
+
 
             app.UseRouting();
 
