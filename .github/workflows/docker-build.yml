@@ -22,6 +22,12 @@ jobs:
         if: ${{ env.BRANCH_NAME }} == 'main' || ${{ env.BRANCH_NAME }} == 'master'
         shell: bash
         run: echo "BRANCH_NAME=latest" >> $GITHUB_ENV
+    
+      - name: Move to correct working directory for docker build
+        run: |
+          pwd
+          ls
+          cd API
 
       - name: Docker build and publish
         uses: zenato/docker-action@v1.0.0
