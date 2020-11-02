@@ -24,7 +24,7 @@ jobs:
         run: echo "BRANCH_NAME=latest" >> $GITHUB_ENV
 
       - name: Build, Tag and Publish
-        uses: HurricanKai/Publish-Docker-Github-Action@1.12.1
+        uses: HurricanKai/Publish-Docker-Github-Action@master
         with:
           name:  ${{ secrets.DOCKER_REPOSITORY }}:${{ env.BRANCH_NAME }}
           registry: ${{ secrets.DOCKER_REGISTRY }}
