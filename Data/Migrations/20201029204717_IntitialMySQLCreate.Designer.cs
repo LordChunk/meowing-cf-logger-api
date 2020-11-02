@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
-    [DbContext(typeof(RepositoryContext))]
+    [DbContext(typeof(ApplicationContext))]
     [Migration("20201029204717_IntitialMySQLCreate")]
     partial class IntitialMySQLCreate
     {

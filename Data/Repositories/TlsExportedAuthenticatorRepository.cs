@@ -4,8 +4,8 @@ using Data.Repositories.Interfaces;
 
 namespace Data.Repositories
 {
-    public class TlsExportedAuthenticatorRepository : RepositoryBase<TlsExportedAuthenticator>, ITlsExportedAuthenticatorRepository
+    public class TlsExportedAuthenticatorRepository : RepositoryBase<TlsExportedAuthenticator>
     {
-        public TlsExportedAuthenticatorRepository(RepositoryContext repositoryContext) : base(repositoryContext) {}
+        public TlsExportedAuthenticatorRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
     }
 }

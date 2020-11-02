@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Data.Models.Common;
 using Newtonsoft.Json;
 
 namespace Data.Models
 {
-    public class HttpHeader
+    public class HttpHeader : IEntity
     {
         [Required]
         public string Header { get; set; }

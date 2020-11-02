@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using API.Dto;
+using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Data.Models;
@@ -14,9 +15,9 @@ namespace API.Controllers
     [ApiController]
     public class HttpRequestsController : ControllerBase
     {
-        private readonly IRepositoryWrapper _repositoryWrapper;
+        private readonly RepositoryWrapper _repositoryWrapper;
 
-        public HttpRequestsController(IRepositoryWrapper repositoryWrapper)
+        public HttpRequestsController(RepositoryWrapper repositoryWrapper)
         {
             _repositoryWrapper = repositoryWrapper;
         }
@@ -25,14 +26,14 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HttpRequest>>> GetHttpRequests()
         {
-            return await _repositoryWrapper.HttpRequest.FindAll().ToListAsync();
+            return await _repositoryWrapper.HttpRequest.GetAll();
         }
 
         // GET: api/HttpRequests/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HttpRequest>> GetHttpRequest(int id)
         {
-            var httpRequest = await _repositoryWrapper.HttpRequest.FindByCondition(r => r.Id == id).FirstOrDefaultAsync();
+            var httpRequest = await _repositoryWrapper.HttpRequest.Get(r => r.Id == id);
 
             if (httpRequest == null)
             {
@@ -53,21 +54,9 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            _repositoryWrapper.HttpRequest.Update(httpRequest);
+            var result = await _repositoryWrapper.HttpRequest.Update(httpRequest);
 
-            try
-            {
-                await _repositoryWrapper.Save();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!HttpRequestExists(id))
-                {
-                    return NotFound();
-                }
-
-                throw;
-            }
+            if (result == null) return NotFound();
 
             return NoContent();
         }
@@ -79,8 +68,7 @@ namespace API.Controllers
         public async Task<ActionResult<HttpRequest>> PostHttpRequest(HttpRequestDto dto)
         {
             var httpRequest = ConvertDtoToModel(dto);
-            _repositoryWrapper.HttpRequest.Create(httpRequest);
-            await _repositoryWrapper.Save();
+            await _repositoryWrapper.HttpRequest.Add(httpRequest);
 
             return CreatedAtAction("GetHttpRequest", new { id = httpRequest.Id }, httpRequest);
         }
@@ -89,21 +77,15 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<HttpRequest>> DeleteHttpRequest(int id)
         {
-            var httpRequest = await _repositoryWrapper.HttpRequest.FindByCondition(r => r.Id == id).FirstOrDefaultAsync();
+            var httpRequest = await _repositoryWrapper.HttpRequest.Get(r => r.Id == id);
             if (httpRequest == null)
             {
                 return NotFound();
             }
 
-            _repositoryWrapper.HttpRequest.Delete(httpRequest);
-            await _repositoryWrapper.Save();
+            await _repositoryWrapper.HttpRequest.Remove(httpRequest);
 
             return httpRequest;
-        }
-
-        private bool HttpRequestExists(int id)
-        {
-            return _repositoryWrapper.HttpRequest.FindByCondition(r => r.Id == id).Any();
         }
 
         private HttpRequest ConvertDtoToModel(HttpRequestDto dto)

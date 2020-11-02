@@ -1,38 +1,106 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Data.Models.Common;
 using Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories.Common
 {
-    // Based on https://code-maze.com/net-core-web-development-part4/
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public abstract class RepositoryBase<TEntity> : RepositoryBase<TEntity, ApplicationContext>
+           where TEntity : class, IEntity
     {
-        protected RepositoryContext RepositoryContext { get; set; }
-        public RepositoryBase(RepositoryContext repositoryContext)
+        public RepositoryBase(ApplicationContext context) : base(context)
         {
-            this.RepositoryContext = repositoryContext;
         }
-        public IQueryable<T> FindAll()
+    }
+
+    public abstract class RepositoryBase<TEntity, TContext> : IRepository<TEntity>
+        where TEntity : class, IEntity
+        where TContext : DbContext
+    {
+        protected readonly TContext Context;
+        protected readonly DbSet<TEntity> DbSet;
+
+        public RepositoryBase(TContext context)
         {
-            return this.RepositoryContext.Set<T>().AsNoTracking();
+            Context = context;
+            DbSet = context.Set<TEntity>();
         }
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+
+        protected virtual IQueryable<TEntity> GetQueryBase()
         {
-            return this.RepositoryContext.Set<T>().Where(expression).AsNoTracking();
+            return DbSet;
         }
-        public void Create(T entity)
+
+        public async Task<TEntity> Add(TEntity entity)
         {
-            this.RepositoryContext.Set<T>().Add(entity);
+            await DbSet.AddAsync(entity);
+
+            var changed = await Context.SaveChangesAsync();
+            return changed > 0 ? entity : null;
         }
-        public void Update(T entity)
+
+        public async Task<TEntity> Get(params Expression<Func<TEntity, bool>>[] predicates)
         {
-            this.RepositoryContext.Set<T>().Update(entity);
+            return await predicates
+                .Aggregate(
+                    GetQueryBase(),
+                    (query, predicate) => query.Where(predicate))
+                .FirstOrDefaultAsync();
         }
-        public void Delete(T entity)
+
+        public async Task<List<TEntity>> GetAll(params Expression<Func<TEntity, bool>>[] predicates)
         {
-            this.RepositoryContext.Set<T>().Remove(entity);
+            return await predicates
+                .Aggregate(
+                    GetQueryBase(),
+                    (query, predicate) => query.Where(predicate))
+                .ToListAsync();
+        }
+
+        public async Task<TEntity> Update(TEntity entity)
+        {
+            Context.Entry(entity).State = EntityState.Modified;
+
+            var changed = await Context.SaveChangesAsync();
+            return changed > 0 ? entity : null;
+        }
+        public virtual async Task<List<TEntity>> Remove(params Expression<Func<TEntity, bool>>[] predicates)
+        {
+            var entities = await GetAll(predicates);
+
+            await using var transaction = await Context.Database.BeginTransactionAsync();
+            try
+            {
+                Context.RemoveRange(entities);
+                int deleted = await Context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                if (deleted == entities.Count)
+                {
+                    return entities;
+                }
+
+                await transaction.RollbackAsync();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            return null;
+        }
+
+        public async Task<TEntity> Remove(TEntity entity)
+        {
+            Context.Remove(entity);
+
+            var changed = await Context.SaveChangesAsync();
+            return changed > 0 ? entity : null;
         }
     }
 }

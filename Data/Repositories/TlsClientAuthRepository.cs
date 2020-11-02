@@ -4,8 +4,8 @@ using Data.Repositories.Interfaces;
 
 namespace Data.Repositories
 {
-    public class TlsClientAuthRepository : RepositoryBase<TlsClientAuth>, ITlsClientAuthRepository
+    public class TlsClientAuthRepository : RepositoryBase<TlsClientAuth>
     {
-        public TlsClientAuthRepository(RepositoryContext repositoryContext) : base(repositoryContext) {}
+        public TlsClientAuthRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
     }
 }

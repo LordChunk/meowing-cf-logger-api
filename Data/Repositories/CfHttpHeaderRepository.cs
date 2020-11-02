@@ -4,8 +4,8 @@ using Data.Repositories.Interfaces;
 
 namespace Data.Repositories
 {
-    public class CfHttpHeaderRepository : RepositoryBase<CfHttpHeader>, ICfHttpHeaderRepository
+    public class CfHttpHeaderRepository : RepositoryBase<CfHttpHeader>
     {
-        public CfHttpHeaderRepository(RepositoryContext repositoryContext) : base(repositoryContext) {}
+        public CfHttpHeaderRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
     }
 }

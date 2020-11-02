@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
-    public class RepositoryContext : DbContext
+    public class ApplicationContext : DbContext
     {
         // DbSets
         public DbSet<CfHttpHeader> CfHttpHeaders { get; set; }
@@ -12,20 +12,13 @@ namespace Data
         public DbSet<TlsClientAuth> TlsClientAuths { get; set; }
         public DbSet<TlsExportedAuthenticator> TlsExportedAuthenticators { get; set; }
 
-        public RepositoryContext(DbContextOptions options) : base(options)
+        public ApplicationContext(DbContextOptions options) : base(options)
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                //optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MeowingCfLogger;Trusted_Connection=True;");
-                optionsBuilder.UseMySQL(
-                    @"server=192.168.1.10;database=meowingcflogger;uid=meowingcflogger;pwd=D&dz9Nv*#qQF4dxM&g#3iVUP5NXog&%xi8^Kujmm8VCzPsaMZJrX&cue$UCnJq^^Gf"
-                    );
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
