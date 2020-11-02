@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using API.Dto;
 using Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Data.Models;
-using Data.Repositories.Interfaces;
 using HttpRequest = Data.Models.HttpRequest;
 
 namespace API.Controllers

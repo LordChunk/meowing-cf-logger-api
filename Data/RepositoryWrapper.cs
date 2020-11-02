@@ -1,5 +1,4 @@
 ﻿using Data.Repositories;
-using Data.Repositories.Interfaces;
 
 namespace Data
 {
