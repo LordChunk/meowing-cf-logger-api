@@ -19,7 +19,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //services.ConfigureMySqlContext(Configuration);
+            services.ConfigureMySqlContext(Configuration);
 
             services.ConfigureRepositoryWrapper();
 
