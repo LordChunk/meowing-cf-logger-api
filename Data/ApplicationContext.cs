@@ -1,5 +1,7 @@
-﻿using Data.Models;
+﻿using System;
+using Data.Models;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.EntityFrameworkCore.Extensions;
 
 namespace Data
 {
@@ -9,6 +11,7 @@ namespace Data
         public DbSet<CfHttpHeader> CfHttpHeaders { get; set; }
         public DbSet<HttpHeader> HttpHeaders { get; set; }
         public DbSet<HttpRequest> HttpRequests { get; set; }
+        public DbSet<HttpRequestLog> HttpRequestLog { get; set; }
         public DbSet<TlsClientAuth> TlsClientAuths { get; set; }
         public DbSet<TlsExportedAuthenticator> TlsExportedAuthenticators { get; set; }
 
@@ -31,6 +34,11 @@ namespace Data
             // Set composite key for HttpHeader
             modelBuilder.Entity<HttpHeader>()
                 .HasKey(r => new {r.Header, r.HttpRequestId});
+
+            // Add DateTime value to HttpRequestLog
+            modelBuilder.Entity<HttpRequestLog>()
+                .Property(l => l.CreatedAt)
+                .HasDefaultValueSql("NOW()");
         }
     }
 }

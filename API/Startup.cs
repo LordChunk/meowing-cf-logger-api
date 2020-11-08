@@ -1,3 +1,4 @@
+using API.HubConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,8 +21,9 @@ namespace API
         {
 
             services.ConfigureMySqlContext(Configuration);
-
             services.ConfigureRepositoryWrapper();
+
+            services.AddSignalR();
 
             services.AddControllers().AddNewtonsoftJson();
         }
@@ -47,6 +49,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<HttpRequestHub>("hub/http-request");
             });
         }
     }
