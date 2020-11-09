@@ -7,8 +7,9 @@ namespace Data
 {
     class ContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
     {
-        private IConfiguration Configuration => new ConfigurationBuilder().SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()).ToString())
-            .AddJsonFile("API/appsettings.json")
+        private IConfiguration Configuration => new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(Directory.GetCurrentDirectory() + "/../API/appsettings.json")
             .Build();
 
         public ApplicationContext CreateDbContext(string[] args)
