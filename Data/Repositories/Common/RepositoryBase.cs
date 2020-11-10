@@ -11,7 +11,7 @@ namespace Data.Repositories.Common
     public abstract class RepositoryBase<TEntity> : RepositoryBase<TEntity, ApplicationContext>
            where TEntity : class, IEntity
     {
-        public RepositoryBase(ApplicationContext context) : base(context)
+        internal RepositoryBase(ApplicationContext context) : base(context)
         {
         }
     }
@@ -23,7 +23,7 @@ namespace Data.Repositories.Common
         protected readonly TContext Context;
         protected readonly DbSet<TEntity> DbSet;
 
-        public RepositoryBase(TContext context)
+        internal RepositoryBase(TContext context)
         {
             Context = context;
             DbSet = context.Set<TEntity>();

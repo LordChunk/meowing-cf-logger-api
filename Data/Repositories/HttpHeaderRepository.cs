@@ -5,6 +5,6 @@ namespace Data.Repositories
 {
     public class HttpHeaderRepository : RepositoryBase<HttpHeader>
     {
-        public HttpHeaderRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
+        internal HttpHeaderRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
     }
 }

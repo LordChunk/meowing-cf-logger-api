@@ -5,8 +5,6 @@ namespace Data.Repositories
 {
     public class HttpRequestLogRepository : RepositoryBase<HttpRequestLog>
     {
-        public HttpRequestLogRepository(ApplicationContext context) : base(context)
-        {
-        }
+        internal HttpRequestLogRepository(ApplicationContext context) : base(context) {}
     }
 }

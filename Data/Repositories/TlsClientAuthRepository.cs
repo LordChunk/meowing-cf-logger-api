@@ -5,6 +5,6 @@ namespace Data.Repositories
 {
     public class TlsClientAuthRepository : RepositoryBase<TlsClientAuth>
     {
-        public TlsClientAuthRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
+        internal TlsClientAuthRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
     }
 }

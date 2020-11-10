@@ -5,6 +5,6 @@ namespace Data.Repositories
 {
     public class CfHttpHeaderRepository : RepositoryBase<CfHttpHeader>
     {
-        public CfHttpHeaderRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
+        internal CfHttpHeaderRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
     }
 }

@@ -5,6 +5,6 @@ namespace Data.Repositories
 {
     public class TlsExportedAuthenticatorRepository : RepositoryBase<TlsExportedAuthenticator>
     {
-        public TlsExportedAuthenticatorRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
+        internal TlsExportedAuthenticatorRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
     }
 }
