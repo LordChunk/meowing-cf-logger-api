@@ -3,8 +3,8 @@ using Data.Repositories.Common;
 
 namespace Data.Repositories
 {
-    public class CfHttpHeaderRepository : RepositoryBase<CfHttpHeader>
+    internal class CfHttpHeaderRepository : RepositoryBase<CfHttpHeader>, ICfHttpHeaderRepository
     {
-        internal CfHttpHeaderRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
+        public CfHttpHeaderRepository(ApplicationContext repositoryContext) : base(repositoryContext) {}
     }
 }

@@ -3,8 +3,8 @@ using Data.Repositories.Common;
 
 namespace Data.Repositories
 {
-    public class HttpRequestLogRepository : RepositoryBase<HttpRequestLog>
+    internal class HttpRequestLogRepository : RepositoryBase<HttpRequestLog>, IHttpRequestLogRepository
     {
-        internal HttpRequestLogRepository(ApplicationContext context) : base(context) {}
+        public HttpRequestLogRepository(ApplicationContext context) : base(context) {}
     }
 }
