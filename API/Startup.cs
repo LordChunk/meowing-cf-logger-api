@@ -22,7 +22,7 @@ namespace API
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder => builder
-                    .WithOrigins("http://localhost:4200")
+                    .WithOrigins(Configuration["WebsiteURL"])
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials());
@@ -40,13 +40,13 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseCors("CorsPolicy");
             }
             else
             {
                 app.UseHttpsRedirection();
             }
 
+            app.UseCors("CorsPolicy");
 
             app.UseRouting();
 
