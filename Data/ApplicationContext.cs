@@ -1,7 +1,7 @@
-﻿using System;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
-using MySql.Data.EntityFrameworkCore.Extensions;
 
 namespace Data
 {
@@ -15,8 +15,12 @@ namespace Data
         public DbSet<TlsClientAuth> TlsClientAuths { get; set; }
         public DbSet<TlsExportedAuthenticator> TlsExportedAuthenticators { get; set; }
 
+        // Observable for tracking db saves
+        public readonly HttpLogsObservable HttpLogsObservable;
+
         public ApplicationContext(DbContextOptions options) : base(options)
         {
+            HttpLogsObservable = new HttpLogsObservable(this);
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,6 +43,15 @@ namespace Data
             modelBuilder.Entity<HttpRequestLog>()
                 .Property(l => l.CreatedAt)
                 .HasDefaultValueSql("NOW()");
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            var returnValue = await base.SaveChangesAsync(cancellationToken);
+
+            HttpLogsObservable.Notify();
+            
+            return returnValue;
         }
     }
 }

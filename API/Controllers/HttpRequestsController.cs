@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Dto;
+using API.HubConfig;
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Data.Models;
 using Data.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using HttpRequest = Data.Models.HttpRequest;
 
 namespace API.Controllers
@@ -14,10 +16,12 @@ namespace API.Controllers
     public class HttpRequestsController : ControllerBase
     {
         private readonly RepositoryWrapper _repositoryWrapper;
+        private readonly IHubContext<HttpRequestHub> _hub;
 
-        public HttpRequestsController(RepositoryWrapper repositoryWrapper)
+        public HttpRequestsController(RepositoryWrapper repositoryWrapper, IHubContext<HttpRequestHub> hub)
         {
             _repositoryWrapper = repositoryWrapper;
+            _hub = hub;
         }
 
         // GET: api/HttpRequests

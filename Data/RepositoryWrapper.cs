@@ -18,6 +18,12 @@ namespace Data
         public ITlsClientAuthRepository TlsClientAuth => _tlsClientAuth ??= new TlsClientAuthRepository(_repositoryContext);
         public ITlsExportedAuthenticatorRepository TlsExportedAuthenticator => _tlsExportedAuthenticator ??= new TlsExportedAuthenticatorRepository(_repositoryContext);
 
-        public RepositoryWrapper(ApplicationContext context) => _repositoryContext = context;
+        public readonly HttpLogsObservable HttpLogsObservable;
+
+        public RepositoryWrapper(ApplicationContext context)
+        {
+            _repositoryContext = context;
+            HttpLogsObservable = _repositoryContext.HttpLogsObservable;
+        } 
     }
 }
