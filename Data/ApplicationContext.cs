@@ -1,7 +1,5 @@
-﻿using System;
-using Data.Models;
+﻿using Data.Models;
 using Microsoft.EntityFrameworkCore;
-using MySql.Data.EntityFrameworkCore.Extensions;
 
 namespace Data
 {
