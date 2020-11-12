@@ -8,10 +8,18 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      MySQLConnectionStrings:Test: "server=localhost;database=meowingcflogger-test;uid=meowingcflogger-test;pwd=meowingcflogger-test"
 
     steps:
+    - uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql database: 'meowingcflogger-test' # Optional, default value is "test". The specified database which will be create
+        mysql user: 'meowingcflogger-test' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+        mysql password: 'meowingcflogger-test' # Required if "mysql user" exists. The password for the "mysql user"
+
+          
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
