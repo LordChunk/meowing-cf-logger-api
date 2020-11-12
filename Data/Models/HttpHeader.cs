@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Data.Models.Common;
+using Newtonsoft.Json;
 
 namespace Data.Models
 {
-    public class HttpHeader : EntityBase
+    public class HttpHeader : IEntity
     {
         [Required]
         public string Header { get; set; }
@@ -11,6 +12,9 @@ namespace Data.Models
         public string Value { get; set; }
 
         [Required]
-        public HttpRequest HttpRequest { get; set; }
+        public int HttpRequestId { get; set; }
+
+        [JsonIgnore]
+        public virtual HttpRequest HttpRequest { get; set; }
     }
 }

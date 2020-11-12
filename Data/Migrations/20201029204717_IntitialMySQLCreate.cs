@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class IntitialMySQLCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,19 +12,19 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CertIssuerDnrfc2253 = table.Column<string>(nullable: false),
-                    CertFingerprintSha1 = table.Column<string>(nullable: false),
-                    CertSubjectDnLegacy = table.Column<string>(nullable: false),
-                    CertPresented = table.Column<string>(nullable: false),
-                    CertIssuerDnLegacy = table.Column<string>(nullable: false),
-                    CertSubjectDn = table.Column<string>(nullable: false),
-                    CertNotBefore = table.Column<string>(nullable: false),
-                    CertNotAfter = table.Column<string>(nullable: false),
-                    CertSubjectDnrfc2253 = table.Column<string>(nullable: false),
-                    CertVerified = table.Column<string>(nullable: false),
-                    CertSerial = table.Column<string>(nullable: false),
-                    CertIssuerDn = table.Column<string>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    CertIssuerDnrfc2253 = table.Column<string>(nullable: true),
+                    CertFingerprintSha1 = table.Column<string>(nullable: true),
+                    CertSubjectDnLegacy = table.Column<string>(nullable: true),
+                    CertPresented = table.Column<string>(nullable: true),
+                    CertIssuerDnLegacy = table.Column<string>(nullable: true),
+                    CertSubjectDn = table.Column<string>(nullable: true),
+                    CertNotBefore = table.Column<string>(nullable: true),
+                    CertNotAfter = table.Column<string>(nullable: true),
+                    CertSubjectDnrfc2253 = table.Column<string>(nullable: true),
+                    CertVerified = table.Column<string>(nullable: true),
+                    CertSerial = table.Column<string>(nullable: true),
+                    CertIssuerDn = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,11 +36,11 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ServerFinished = table.Column<string>(nullable: false),
-                    ClientHandshake = table.Column<string>(nullable: false),
-                    ServerHandshake = table.Column<string>(nullable: false),
-                    ClientFinished = table.Column<string>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    ServerFinished = table.Column<string>(nullable: true),
+                    ClientHandshake = table.Column<string>(nullable: true),
+                    ServerHandshake = table.Column<string>(nullable: true),
+                    ClientFinished = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,19 +52,19 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Asn = table.Column<string>(nullable: false),
-                    ClientAcceptEncoding = table.Column<string>(nullable: false),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Asn = table.Column<string>(nullable: true),
+                    ClientAcceptEncoding = table.Column<string>(nullable: true),
                     ClientTcpRtt = table.Column<int>(nullable: false),
-                    Colo = table.Column<string>(nullable: false),
-                    Country = table.Column<string>(nullable: false),
-                    TlsVersion = table.Column<string>(nullable: false),
-                    TlsCipher = table.Column<string>(nullable: false),
+                    Colo = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    TlsVersion = table.Column<string>(nullable: true),
+                    TlsCipher = table.Column<string>(nullable: true),
                     EdgeRequestKeepAliveStatus = table.Column<int>(nullable: false),
-                    RequestPriority = table.Column<string>(nullable: false),
-                    TlsClientAuthId = table.Column<int>(nullable: false),
-                    HttpProtocol = table.Column<string>(nullable: false),
-                    TlsExportedAuthenticatorId = table.Column<int>(nullable: false)
+                    RequestPriority = table.Column<string>(nullable: true),
+                    TlsClientAuthId = table.Column<int>(nullable: true),
+                    HttpProtocol = table.Column<string>(nullable: true),
+                    TlsExportedAuthenticatorId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,13 +74,13 @@ namespace Data.Migrations
                         column: x => x.TlsClientAuthId,
                         principalTable: "TlsClientAuths",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CfHttpHeaders_TlsExportedAuthenticators_TlsExportedAuthenticatorId",
+                        name: "FK_CfHttpHeaders_TlsExportedAuthenticators_TlsExportedAuthentic~",
                         column: x => x.TlsExportedAuthenticatorId,
                         principalTable: "TlsExportedAuthenticators",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,7 +88,7 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Url = table.Column<string>(nullable: false),
                     CfId = table.Column<int>(nullable: true),
                     Method = table.Column<string>(nullable: false),
@@ -112,15 +113,13 @@ namespace Data.Migrations
                 name: "HttpHeaders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     Header = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: false),
-                    HttpRequestId = table.Column<int>(nullable: false)
+                    HttpRequestId = table.Column<int>(nullable: false),
+                    Value = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HttpHeaders", x => x.Id);
+                    table.PrimaryKey("PK_HttpHeaders", x => new { x.Header, x.HttpRequestId });
                     table.ForeignKey(
                         name: "FK_HttpHeaders_HttpRequests_HttpRequestId",
                         column: x => x.HttpRequestId,
