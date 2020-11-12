@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MySQLConnectionStrings:Test: "server=localhost;database=meowingcflogger-test;uid=meowingcflogger-test;pwd=meowingcflogger-test"
+      ASPNETCORE_MySQLConnectionStrings:Test: "server=localhost;database=meowingcflogger-test;uid=meowingcflogger-test;pwd=meowingcflogger-test"
 
     steps:
     - uses: mirromutth/mysql-action@v1.1
