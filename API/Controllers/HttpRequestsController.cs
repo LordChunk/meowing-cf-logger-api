@@ -4,13 +4,10 @@ using API.Dto;
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Data.Models;
-using Data.Repositories;
 using HttpRequest = Data.Models.HttpRequest;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class HttpRequestsController : ControllerBase
     {
         private readonly RepositoryWrapper _repositoryWrapper;
