@@ -4,7 +4,6 @@ using API.Dto;
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Data.Models;
-using HttpRequest = Data.Models.HttpRequest;
 
 namespace API.Controllers
 {
@@ -19,21 +18,14 @@ namespace API.Controllers
 
         // GET: api/HttpRequests
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<HttpRequest>>> GetHttpRequests()
-        {
-            return await _repositoryWrapper.HttpRequest.GetAll();
-        }
+        public async Task<ActionResult<IEnumerable<HttpRequest>>> GetHttpRequests() => await _repositoryWrapper.HttpRequest.GetAll();
 
         // GET: api/HttpRequests/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HttpRequest>> GetHttpRequest(int id)
         {
             var httpRequest = await _repositoryWrapper.HttpRequest.Get(r => r.Id == id);
-
-            if (httpRequest == null)
-            {
-                return NotFound();
-            }
+            if (httpRequest == null) return NotFound();
 
             return httpRequest;
         }
@@ -44,13 +36,8 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHttpRequest(int id, HttpRequest httpRequest)
         {
-            if (id != httpRequest.Id)
-            {
-                return BadRequest();
-            }
-
+            if (id != httpRequest.Id) return BadRequest();
             var result = await _repositoryWrapper.HttpRequest.Update(httpRequest);
-
             if (result == null) return NotFound();
 
             return NoContent();
@@ -73,11 +60,7 @@ namespace API.Controllers
         public async Task<ActionResult<HttpRequest>> DeleteHttpRequest(int id)
         {
             var httpRequest = await _repositoryWrapper.HttpRequest.Get(r => r.Id == id);
-            if (httpRequest == null)
-            {
-                return NotFound();
-            }
-
+            if (httpRequest == null) return NotFound();
             await _repositoryWrapper.HttpRequest.Remove(httpRequest);
 
             return httpRequest;
