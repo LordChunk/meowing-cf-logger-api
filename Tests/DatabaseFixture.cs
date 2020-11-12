@@ -19,6 +19,7 @@ namespace Tests
         {
             Configuration = new ConfigurationBuilder()
                 .AddJsonFile(Directory.GetCurrentDirectory() + "../../../../../API/appsettings.json")
+                .AddEnvironmentVariables()
                 .Build();
 
             var dbOptionsBuilder = new DbContextOptionsBuilder();
