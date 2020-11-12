@@ -36,7 +36,7 @@ namespace Tests.Attributes
         /// Gets or sets the timeout of the transaction, in milliseconds.
         /// By default, the transaction will not timeout.
         /// </summary>
-        public long TimeoutInMS { get; set; } = -1;
+        public long TimeoutInMS { get; set; } = 1;
 
         /// <summary>
         /// Rolls back the transaction.
