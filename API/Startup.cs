@@ -43,10 +43,10 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHttpsRedirection();
-            }
+            //else
+            //{
+            //    app.UseHttpsRedirection();
+            //}
 
             app.UseCors("CorsPolicy");
 
