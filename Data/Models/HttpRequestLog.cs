@@ -1,9 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Data.Models.Common;
-using Microsoft.VisualBasic;
 
 namespace Data.Models
 {
