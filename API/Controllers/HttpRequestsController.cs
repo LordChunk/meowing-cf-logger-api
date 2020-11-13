@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using API.Dto;
 using Data;
+using Libs.Models;
 using Microsoft.AspNetCore.Mvc;
-using Data.Models;
-using HttpRequest = Data.Models.HttpRequest;
+using HttpRequest = Libs.Models.HttpRequest;
 
 namespace API.Controllers
 {

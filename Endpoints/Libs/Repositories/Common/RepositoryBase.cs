@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Data;
 using Libs.Models.Common;
-using Libs.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Repositories.Common
+namespace EndPointLibs.Repositories.Common
 {
     public abstract class RepositoryBase<TEntity> : RepositoryBase<TEntity, ApplicationContext>
            where TEntity : class, IEntity

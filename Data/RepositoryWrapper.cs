@@ -1,8 +1,9 @@
 ﻿using Data.Repositories;
+using Libs.Repositories;
 
 namespace Data
 {
-    public sealed class RepositoryWrapper
+    internal class RepositoryWrapper : IRepositoryWrapper
     {
         private readonly ApplicationContext _repositoryContext;
 

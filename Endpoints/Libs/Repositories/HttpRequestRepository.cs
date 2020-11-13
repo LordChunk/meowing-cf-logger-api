@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using Data.Repositories.Common;
+using Data;
+using EndPointLibs.Repositories.Common;
 using Libs.Models;
-using Libs.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Repositories
+namespace EndPointLibs.Repositories
 {
     internal class HttpRequestRepository : RepositoryBase<HttpRequest>, IHttpRequestRepository
     {

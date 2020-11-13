@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Data.Models.Common;
+using Libs.Models.Common;
 using Newtonsoft.Json;
 
-namespace Data.Models
+namespace Libs.Models
 {
     public class HttpHeader : IEntity
     {

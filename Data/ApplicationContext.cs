@@ -1,4 +1,4 @@
-﻿using Data.Models;
+﻿using Libs.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data

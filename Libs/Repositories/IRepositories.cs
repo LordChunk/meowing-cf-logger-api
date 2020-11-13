@@ -1,7 +1,6 @@
-﻿using Data.Models;
-using Data.Repositories.Common;
+﻿using Libs.Models;
 
-namespace Data.Repositories
+namespace Libs.Repositories
 {
     public interface ICfHttpHeaderRepository : IRepository<CfHttpHeader> { }
     public interface IHttpHeaderRepository : IRepository<HttpHeader> { }

@@ -1,6 +1,6 @@
-﻿using Data.Models.Common;
+﻿using Libs.Models.Common;
 
-namespace Data.Models
+namespace Libs.Models
 {
     public class TlsExportedAuthenticator : EntityBase
     {
