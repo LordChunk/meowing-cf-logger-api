@@ -38,7 +38,24 @@ namespace Tests.Repositories
         [Fact]
         public async void GettingNonExistingItemShouldReturnNull()
         {
-            Assert.Null(await _httpRequest.Get(r => r.Id == 99999));
+            await AddRequestWithId(1);
+            await AddRequestWithId(2);
+            await AddRequestWithId(3);
+            await AddRequestWithId(4);
+            await AddRequestWithId(5);
+
+            Assert.Null(await _httpRequest.Get(r => r.Id == 6));
+        }
+        [Fact]
+        public async void GetAllShouldReturnAllItems()
+        {
+            await AddRequestWithId(1);
+            await AddRequestWithId(2);
+            await AddRequestWithId(3);
+            await AddRequestWithId(4);
+            await AddRequestWithId(5);
+
+            Assert.Equal(5, _httpRequest.GetAll().Result.Count);
         }
 
         // Update
@@ -54,6 +71,19 @@ namespace Tests.Repositories
             await AddRequestWithRndId();
 
             Assert.Equal(id, _httpRequest.Get(r => r.Id == id).Result.Id);
+        }
+
+        [Fact]
+        public async void Removing1ItemShouldReduceGetAllCountBy1()
+        {
+            for (var i = 0; i < 8; i++) await AddRequestWithRndId();
+
+            var id = AddRequestWithRndId().Result.Id;
+
+            var itemCountBeforeDelete = _httpRequest.GetAll().Result.Count;
+            var deleteResult = _httpRequest.Remove(r => r.Id == id).Result;
+            Assert.Single(deleteResult);
+            Assert.Equal(itemCountBeforeDelete, _httpRequest.GetAll().Result.Count);
         }
 
         private async Task<HttpRequest> AddRequestWithId(int id = 0)
