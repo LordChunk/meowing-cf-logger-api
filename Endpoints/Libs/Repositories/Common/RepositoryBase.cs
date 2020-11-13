@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Data;
 using Libs.Models.Common;
 using Libs.RabbitMQ;
-using Libs.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
