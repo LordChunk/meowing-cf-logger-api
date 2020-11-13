@@ -1,4 +1,5 @@
-﻿using Libs.Repositories;
+﻿using Libs.RabbitMQ;
+using Libs.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EndPointLibs
@@ -10,7 +11,7 @@ namespace EndPointLibs
 
         public static void ConfigureMqClient(this IServiceCollection services)
         {
-            //services.AddTransient<>()
+            services.AddTransient<IMqConnectionFactory, MqConnectionFactory>();
         }
     }
 }

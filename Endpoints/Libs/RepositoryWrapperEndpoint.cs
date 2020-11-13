@@ -1,4 +1,5 @@
 ﻿using EndPointLibs.Repositories;
+using Libs.RabbitMQ;
 using Libs.Repositories;
 
 
@@ -13,11 +14,18 @@ namespace EndPointLibs
         private TlsClientAuthRepository _tlsClientAuth;
         private TlsExportedAuthenticatorRepository _tlsExportedAuthenticator;
 
-        public ICfHttpHeaderRepository CfHttpHeader => _cfHttpHeader ??= new CfHttpHeaderRepository();
-        public IHttpHeaderRepository HttpHeader => _httpHeader ??= new HttpHeaderRepository();
-        public IHttpRequestRepository HttpRequest => _httpRequest ??= new HttpRequestRepository();
-        public ITlsClientAuthRepository TlsClientAuth => _tlsClientAuth ??= new TlsClientAuthRepository();
-        public ITlsExportedAuthenticatorRepository TlsExportedAuthenticator => _tlsExportedAuthenticator ??= new TlsExportedAuthenticatorRepository();
+        public ICfHttpHeaderRepository CfHttpHeader => _cfHttpHeader ??= new CfHttpHeaderRepository(_mqConnection, "cf-http-header");
+        public IHttpHeaderRepository HttpHeader => _httpHeader ??= new HttpHeaderRepository(_mqConnection, "http-header");
+        public IHttpRequestRepository HttpRequest => _httpRequest ??= new HttpRequestRepository(_mqConnection, "http-request");
+        public ITlsClientAuthRepository TlsClientAuth => _tlsClientAuth ??= new TlsClientAuthRepository(_mqConnection, "tls-client-auth");
+        public ITlsExportedAuthenticatorRepository TlsExportedAuthenticator => 
+            _tlsExportedAuthenticator ??= new TlsExportedAuthenticatorRepository(_mqConnection, "tls-exported-authenticator");
 
+        private readonly IMqConnectionFactory _mqConnection;
+
+        internal RepositoryWrapperEndpoint(IMqConnectionFactory mqConnection)
+        {
+            _mqConnection = mqConnection;
+        }
     }
 }

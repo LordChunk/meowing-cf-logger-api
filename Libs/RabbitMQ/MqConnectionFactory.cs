@@ -3,9 +3,9 @@ using RabbitMQ.Client;
 
 namespace Libs.RabbitMQ
 {
-    public class MqConnectionFactory
+    public class MqConnectionFactory : IMqConnectionFactory
     {
-        public ConnectionFactory Get(string uri = @"amqp://user:pass@hostName:port/vhost")
+        public ConnectionFactory Get(string uri = @"amqp://guest:guest@localhost:5672/")
         {
             return new ConnectionFactory()
             {

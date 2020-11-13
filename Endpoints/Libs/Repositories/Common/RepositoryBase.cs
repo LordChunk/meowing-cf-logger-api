@@ -1,33 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 using Data;
 using Libs.Models.Common;
+using Libs.RabbitMQ;
 using Libs.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
 
 namespace EndPointLibs.Repositories.Common
 {
-    public abstract class RepositoryBase<TEntity> : RepositoryBase<TEntity, ApplicationContext>
+    internal abstract class RepositoryBase<TEntity> : RepositoryBase<TEntity, ApplicationContext>
            where TEntity : class, IEntity
     {
+        internal RepositoryBase(IMqConnectionFactory mqConnection, string queueName) : base(mqConnection, queueName) {}
     }
 
-    public abstract class RepositoryBase<TEntity, TContext> : IRepository<TEntity>
+    internal abstract class RepositoryBase<TEntity, TContext> : IRabbitMqRepository<TEntity>
         where TEntity : class, IEntity
         where TContext : DbContext
     {
+        public string QueueName { get; }
+        private readonly ConnectionFactory _mqFactory;
 
-        internal RepositoryBase()
+        internal RepositoryBase(IMqConnectionFactory mqConnection, string queueName)
         {
-
+            QueueName = queueName;
+            _mqFactory = mqConnection.Get();
         }
 
         public async Task<TEntity> Add(TEntity entity)
         {
-            throw new NotImplementedException();
+            using (var conn = _mqFactory.CreateConnection())
+            using (var channel = conn.CreateModel())
+            {
+                channel.QueueDeclare(queue: QueueName);
+
+                var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(entity));
+
+                channel.BasicPublish("", "", null, body);
+            }
+
+            return null;
         }
 
         public async Task<TEntity> Get(params Expression<Func<TEntity, bool>>[] predicates)
