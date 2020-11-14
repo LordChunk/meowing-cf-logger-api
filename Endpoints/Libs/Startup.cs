@@ -24,7 +24,7 @@ namespace EndPointLibs
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder => builder
-                    .WithOrigins(Configuration["WebsiteURL"])
+                    //.WithOrigins(Configuration["WebsiteURL"])
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials());

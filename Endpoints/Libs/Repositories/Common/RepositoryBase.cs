@@ -36,14 +36,20 @@ namespace EndPointLibs.Repositories.Common
             using (var conn = _mqFactory.CreateConnection())
             using (var channel = conn.CreateModel())
             {
-                channel.QueueDeclare(queue: QueueName);
+                channel.QueueDeclare(queue: QueueName, true, false, false, null);
 
                 var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(entity));
 
-                channel.BasicPublish("", "", null, body);
-            }
+                channel.BasicPublish("", QueueName, null, body);
 
-            return null;
+                var bodyBytes = channel.BasicGet(QueueName, false)?.Body.ToArray();
+
+                if (bodyBytes == null) return null;
+
+                var retrievedBody = JsonConvert.DeserializeObject<TEntity>(Encoding.UTF8.GetString(bodyBytes));
+
+                return retrievedBody;
+            }
         }
 
         public async Task<TEntity> Get(params Expression<Func<TEntity, bool>>[] predicates)

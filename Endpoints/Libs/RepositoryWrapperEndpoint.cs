@@ -1,11 +1,12 @@
 ﻿using EndPointLibs.Repositories;
+using EndPointLibs.Repositories.Common;
 using Libs.RabbitMQ;
 using Libs.Repositories;
 
 
 namespace EndPointLibs
 {
-    public class RepositoryWrapperEndpoint : IRepositoryWrapper
+    public sealed class RepositoryWrapperEndpoint : IRepositoryWrapper
     {
 
         private CfHttpHeaderRepository _cfHttpHeader;
@@ -23,7 +24,7 @@ namespace EndPointLibs
 
         private readonly IMqConnectionFactory _mqConnection;
 
-        internal RepositoryWrapperEndpoint(IMqConnectionFactory mqConnection)
+        public RepositoryWrapperEndpoint(IMqConnectionFactory mqConnection)
         {
             _mqConnection = mqConnection;
         }

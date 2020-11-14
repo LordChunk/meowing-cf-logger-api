@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Endpoints", "Endpoints", "{EA7ECF32-2634-451B-97D8-8D28D54A629E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EndPointLibs", "Endpoints\Libs\EndPointLibs.csproj", "{6574D65A-B3B5-45C1-BD73-C2BC9C96A1AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EndpointLibs", "Endpoints\Libs\EndpointLibs.csproj", "{6574D65A-B3B5-45C1-BD73-C2BC9C96A1AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs", "Libs\Libs.csproj", "{C28EB336-03E3-4D1F-92EE-3DF1F0AB9737}"
 EndProject
