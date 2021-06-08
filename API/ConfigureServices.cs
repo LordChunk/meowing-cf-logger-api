@@ -9,7 +9,7 @@ namespace API
     {
         public static void ConfigureMySqlContext(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<ApplicationContext>(o => o.UseMySQL(config["MySQLConnectionStrings:Default"]));
+            services.AddDbContext<ApplicationContext>(o => o.UseSqlServer(config.GetConnectionString("Default")));
         }
 
         // Repository wrapper is instantiated as singleton to prevent it from checking whether the database is created on each request

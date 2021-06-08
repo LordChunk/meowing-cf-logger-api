@@ -15,7 +15,7 @@ namespace Data
         public ApplicationContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<ApplicationContext>();
-            builder.UseMySQL(Configuration["MySQLConnectionStrings:Default"]);
+            builder.UseSqlServer(Configuration.GetConnectionString("Default"));
 
             return new ApplicationContext(builder.Options);
         }

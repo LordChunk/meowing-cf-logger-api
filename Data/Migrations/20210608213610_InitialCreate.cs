@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.Data.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class IntitialMySQLCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CertIssuerDnrfc2253 = table.Column<string>(nullable: true),
                     CertFingerprintSha1 = table.Column<string>(nullable: true),
                     CertSubjectDnLegacy = table.Column<string>(nullable: true),
@@ -36,7 +36,7 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ServerFinished = table.Column<string>(nullable: true),
                     ClientHandshake = table.Column<string>(nullable: true),
                     ServerHandshake = table.Column<string>(nullable: true),
@@ -52,7 +52,7 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Asn = table.Column<string>(nullable: true),
                     ClientAcceptEncoding = table.Column<string>(nullable: true),
                     ClientTcpRtt = table.Column<int>(nullable: false),
@@ -76,7 +76,7 @@ namespace Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CfHttpHeaders_TlsExportedAuthenticators_TlsExportedAuthentic~",
+                        name: "FK_CfHttpHeaders_TlsExportedAuthenticators_TlsExportedAuthenticatorId",
                         column: x => x.TlsExportedAuthenticatorId,
                         principalTable: "TlsExportedAuthenticators",
                         principalColumn: "Id",
@@ -88,7 +88,7 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Url = table.Column<string>(nullable: false),
                     CfId = table.Column<int>(nullable: true),
                     Method = table.Column<string>(nullable: false),
@@ -128,6 +128,27 @@ namespace Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "HttpRequestLog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedAt = table.Column<DateTime>(nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    RequestId = table.Column<int>(nullable: false),
+                    RequestSize = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HttpRequestLog", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HttpRequestLog_HttpRequests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "HttpRequests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CfHttpHeaders_TlsClientAuthId",
                 table: "CfHttpHeaders",
@@ -144,6 +165,11 @@ namespace Data.Migrations
                 column: "HttpRequestId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HttpRequestLog_RequestId",
+                table: "HttpRequestLog",
+                column: "RequestId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_HttpRequests_CfId",
                 table: "HttpRequests",
                 column: "CfId");
@@ -153,6 +179,9 @@ namespace Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "HttpHeaders");
+
+            migrationBuilder.DropTable(
+                name: "HttpRequestLog");
 
             migrationBuilder.DropTable(
                 name: "HttpRequests");
