@@ -53,6 +53,6 @@ jobs:
           file: API/Dockerfile
           # Don't push draft pull requests
           push: ${{ github.event.pull_request.draft == false && (env.BRANCH_NAME == 'development' || env.BRANCH_NAME == 'latest') }}
-          tags: ghcr.io/lordchunk/project-agile:${{ env.BRANCH_NAME }}
+          tags: ghcr.io/lordchunk/${{ github.repository.name }}:${{ env.BRANCH_NAME }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
