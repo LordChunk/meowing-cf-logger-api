@@ -9,6 +9,8 @@ jobs:
     name: Docker Build and Push
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       ## START SET CORRECT DOCKER TAG
       - name: Get branch name (merge)
         if: github.event_name != 'pull_request'
@@ -44,13 +46,10 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: ls
-
       - name: Build and push
         uses: docker/build-push-action@v2.5.0
         with:
-          context: .
-          file: API/Dockerfile
+          context: ./API
           # Don't push draft pull requests
           push: ${{ github.event.pull_request.draft == false && (env.BRANCH_NAME == 'development' || env.BRANCH_NAME == 'master') }}
           tags: ghcr.io/lordchunk/project-agile:${{ env.BRANCH_NAME }}
