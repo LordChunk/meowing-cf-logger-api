@@ -30,7 +30,7 @@ namespace API
                     .AllowCredentials());
             });
 
-            services.ConfigureMySqlContext(Configuration);
+            services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryWrapper();
 
             services.AddControllers().AddNewtonsoftJson();

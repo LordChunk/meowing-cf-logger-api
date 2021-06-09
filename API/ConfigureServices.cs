@@ -7,7 +7,7 @@ namespace API
 {
     public static class ConfigureServices
     {
-        public static void ConfigureMySqlContext(this IServiceCollection services, IConfiguration config)
+        public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<ApplicationContext>(o => o.UseSqlServer(config.GetConnectionString("Default")));
         }
