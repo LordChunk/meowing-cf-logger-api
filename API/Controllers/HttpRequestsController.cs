@@ -4,20 +4,16 @@ using API.Dto;
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Data.Models;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace API.Controllers
 {
     public class HttpRequestsController : ControllerBase
     {
         private readonly RepositoryWrapper _repositoryWrapper;
-        private readonly ILogger<HttpRequestsController> _logger;
 
-        public HttpRequestsController(RepositoryWrapper repositoryWrapper, ILogger<HttpRequestsController> logger)
+        public HttpRequestsController(RepositoryWrapper repositoryWrapper)
         {
             _repositoryWrapper = repositoryWrapper;
-            _logger = logger;
         }
 
         // GET: api/HttpRequests
@@ -53,10 +49,6 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<HttpRequest>> PostHttpRequest(HttpRequestDto dto)
         {
-            _logger.LogCritical(JsonConvert.SerializeObject(dto));
-
-            return Ok(dto);
-
             var httpRequest = ConvertDtoToModel(dto);
             await _repositoryWrapper.HttpRequest.Add(httpRequest);
 
