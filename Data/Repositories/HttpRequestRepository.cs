@@ -22,12 +22,10 @@ namespace Data.Repositories
                 .Include(b => b.Headers);
         }
 
-        public new async Task<HttpRequest> Add(HttpRequest request)
+        public override async Task<HttpRequest> Add(HttpRequest request)
         {
             var headers = request.Headers;
             request.Headers = null;
-
-            await DbSet.AddAsync(request);
 
             var headersWithId = headers.Select(header =>
             {
@@ -40,8 +38,8 @@ namespace Data.Repositories
             });
 
             request.Headers = headersWithId.ToList();
-
-            return request;
+            
+            return await base.Add(request);
         }
     }
 }

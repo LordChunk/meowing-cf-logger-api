@@ -34,7 +34,7 @@ namespace Data.Repositories.Common
             return DbSet;
         }
 
-        public async Task<TEntity> Add(TEntity entity)
+        public virtual async Task<TEntity> Add(TEntity entity)
         {
             await DbSet.AddAsync(entity);
 
