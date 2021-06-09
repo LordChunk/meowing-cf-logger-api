@@ -90,7 +90,6 @@ namespace API.Controllers
                 {
                     Header = header[0],
                     Value = header[1],
-                    HttpRequestId = model.Id,
                 });
             });
 

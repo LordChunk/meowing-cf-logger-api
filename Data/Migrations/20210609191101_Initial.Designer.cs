@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210608213610_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210609191101_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Data.Models.CfHttpHeader", b =>
@@ -75,19 +75,23 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Models.HttpHeader", b =>
                 {
-                    b.Property<string>("Header")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("HttpRequestId")
-                        .HasColumnType("int");
+                    b.Property<string>("Header")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Header", "HttpRequestId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("HttpRequestId");
+                    b.HasIndex("Header", "Value")
+                        .IsUnique();
 
                     b.ToTable("HttpHeaders");
                 });
@@ -142,9 +146,9 @@ namespace Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("NOW()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("RequestId")
+                    b.Property<int?>("RequestId")
                         .HasColumnType("int");
 
                     b.Property<int>("RequestSize")
@@ -229,6 +233,21 @@ namespace Data.Migrations
                     b.ToTable("TlsExportedAuthenticators");
                 });
 
+            modelBuilder.Entity("HttpHeaderHttpRequest", b =>
+                {
+                    b.Property<int>("HeadersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HttpRequestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("HeadersId", "HttpRequestId");
+
+                    b.HasIndex("HttpRequestId");
+
+                    b.ToTable("HttpHeaderHttpRequest");
+                });
+
             modelBuilder.Entity("Data.Models.CfHttpHeader", b =>
                 {
                     b.HasOne("Data.Models.TlsClientAuth", "TlsClientAuth")
@@ -238,15 +257,10 @@ namespace Data.Migrations
                     b.HasOne("Data.Models.TlsExportedAuthenticator", "TlsExportedAuthenticator")
                         .WithMany()
                         .HasForeignKey("TlsExportedAuthenticatorId");
-                });
 
-            modelBuilder.Entity("Data.Models.HttpHeader", b =>
-                {
-                    b.HasOne("Data.Models.HttpRequest", "HttpRequest")
-                        .WithMany("Headers")
-                        .HasForeignKey("HttpRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("TlsClientAuth");
+
+                    b.Navigation("TlsExportedAuthenticator");
                 });
 
             modelBuilder.Entity("Data.Models.HttpRequest", b =>
@@ -254,13 +268,30 @@ namespace Data.Migrations
                     b.HasOne("Data.Models.CfHttpHeader", "Cf")
                         .WithMany()
                         .HasForeignKey("CfId");
+
+                    b.Navigation("Cf");
                 });
 
             modelBuilder.Entity("Data.Models.HttpRequestLog", b =>
                 {
                     b.HasOne("Data.Models.HttpRequest", "Request")
                         .WithMany()
-                        .HasForeignKey("RequestId")
+                        .HasForeignKey("RequestId");
+
+                    b.Navigation("Request");
+                });
+
+            modelBuilder.Entity("HttpHeaderHttpRequest", b =>
+                {
+                    b.HasOne("Data.Models.HttpHeader", null)
+                        .WithMany()
+                        .HasForeignKey("HeadersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.HttpRequest", null)
+                        .WithMany()
+                        .HasForeignKey("HttpRequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

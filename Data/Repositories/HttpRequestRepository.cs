@@ -12,7 +12,8 @@ namespace Data.Repositories
         protected override IQueryable<HttpRequest> GetQueryBase()
         {
             return base.GetQueryBase()
-                .Include(b => b.Cf);
+                .Include(b => b.Cf)
+                .Include(b => b.Headers);
         }
     }
 }
