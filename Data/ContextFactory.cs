@@ -15,7 +15,7 @@ namespace Data
         public ApplicationContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<ApplicationContext>();
-            builder.UseSqlServer(Configuration.GetConnectionString("Default"));
+            builder.UseSqlServer(Configuration.GetConnectionString("Production"));
 
             return new ApplicationContext(builder.Options);
         }
