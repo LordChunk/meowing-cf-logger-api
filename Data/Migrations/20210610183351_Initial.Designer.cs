@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210609191101_Initial")]
+    [Migration("20210610183351_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,13 +125,14 @@ namespace Data.Migrations
                     b.Property<string>("Redirect")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UrlId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CfId");
+
+                    b.HasIndex("UrlId");
 
                     b.ToTable("HttpRequests");
                 });
@@ -159,6 +160,25 @@ namespace Data.Migrations
                     b.HasIndex("RequestId");
 
                     b.ToTable("HttpRequestLog");
+                });
+
+            modelBuilder.Entity("Data.Models.RequestUrl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Url")
+                        .IsUnique();
+
+                    b.ToTable("RequestUrl");
                 });
 
             modelBuilder.Entity("Data.Models.TlsClientAuth", b =>
@@ -238,12 +258,12 @@ namespace Data.Migrations
                     b.Property<int>("HeadersId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HttpRequestId")
+                    b.Property<int>("HttpRequestsId")
                         .HasColumnType("int");
 
-                    b.HasKey("HeadersId", "HttpRequestId");
+                    b.HasKey("HeadersId", "HttpRequestsId");
 
-                    b.HasIndex("HttpRequestId");
+                    b.HasIndex("HttpRequestsId");
 
                     b.ToTable("HttpHeaderHttpRequest");
                 });
@@ -269,7 +289,15 @@ namespace Data.Migrations
                         .WithMany()
                         .HasForeignKey("CfId");
 
+                    b.HasOne("Data.Models.RequestUrl", "Url")
+                        .WithMany("Requests")
+                        .HasForeignKey("UrlId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Cf");
+
+                    b.Navigation("Url");
                 });
 
             modelBuilder.Entity("Data.Models.HttpRequestLog", b =>
@@ -291,9 +319,14 @@ namespace Data.Migrations
 
                     b.HasOne("Data.Models.HttpRequest", null)
                         .WithMany()
-                        .HasForeignKey("HttpRequestId")
+                        .HasForeignKey("HttpRequestsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Data.Models.RequestUrl", b =>
+                {
+                    b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618
         }

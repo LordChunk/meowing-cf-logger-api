@@ -22,6 +22,19 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RequestUrl",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Url = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestUrl", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TlsClientAuths",
                 columns: table => new
                 {
@@ -103,7 +116,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UrlId = table.Column<int>(type: "int", nullable: false),
                     CfId = table.Column<int>(type: "int", nullable: true),
                     Method = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -121,6 +134,12 @@ namespace Data.Migrations
                         principalTable: "CfHttpHeaders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_HttpRequests_RequestUrl_UrlId",
+                        column: x => x.UrlId,
+                        principalTable: "RequestUrl",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,11 +147,11 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     HeadersId = table.Column<int>(type: "int", nullable: false),
-                    HttpRequestId = table.Column<int>(type: "int", nullable: false)
+                    HttpRequestsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HttpHeaderHttpRequest", x => new { x.HeadersId, x.HttpRequestId });
+                    table.PrimaryKey("PK_HttpHeaderHttpRequest", x => new { x.HeadersId, x.HttpRequestsId });
                     table.ForeignKey(
                         name: "FK_HttpHeaderHttpRequest_HttpHeaders_HeadersId",
                         column: x => x.HeadersId,
@@ -140,8 +159,8 @@ namespace Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HttpHeaderHttpRequest_HttpRequests_HttpRequestId",
-                        column: x => x.HttpRequestId,
+                        name: "FK_HttpHeaderHttpRequest_HttpRequests_HttpRequestsId",
+                        column: x => x.HttpRequestsId,
                         principalTable: "HttpRequests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -179,9 +198,9 @@ namespace Data.Migrations
                 column: "TlsExportedAuthenticatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HttpHeaderHttpRequest_HttpRequestId",
+                name: "IX_HttpHeaderHttpRequest_HttpRequestsId",
                 table: "HttpHeaderHttpRequest",
-                column: "HttpRequestId");
+                column: "HttpRequestsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HttpHeaders_Header_Value",
@@ -198,6 +217,17 @@ namespace Data.Migrations
                 name: "IX_HttpRequests_CfId",
                 table: "HttpRequests",
                 column: "CfId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HttpRequests_UrlId",
+                table: "HttpRequests",
+                column: "UrlId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestUrl_Url",
+                table: "RequestUrl",
+                column: "Url",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -216,6 +246,9 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "CfHttpHeaders");
+
+            migrationBuilder.DropTable(
+                name: "RequestUrl");
 
             migrationBuilder.DropTable(
                 name: "TlsClientAuths");
