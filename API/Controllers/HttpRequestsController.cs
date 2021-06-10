@@ -4,6 +4,7 @@ using API.Dto;
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Data.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -17,6 +18,7 @@ namespace API.Controllers
         }
 
         // GET: api/HttpRequests
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HttpRequest>>> GetHttpRequests() => await _repositoryWrapper.HttpRequest.GetAll();
 
@@ -33,6 +35,7 @@ namespace API.Controllers
         // PUT: api/HttpRequests/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHttpRequest(int id, HttpRequest httpRequest)
         {
@@ -56,6 +59,7 @@ namespace API.Controllers
         }
 
         // DELETE: api/HttpRequests/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<HttpRequest>> DeleteHttpRequest(int id)
         {
@@ -66,7 +70,7 @@ namespace API.Controllers
             return httpRequest;
         }
 
-        private HttpRequest ConvertDtoToModel(HttpRequestDto dto)
+        private static HttpRequest ConvertDtoToModel(HttpRequestDto dto)
         {
             var model = new HttpRequest()
             {
