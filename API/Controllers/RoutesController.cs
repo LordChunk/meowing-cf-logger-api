@@ -20,8 +20,8 @@ namespace API.Controllers
             var routes = _provider.ActionDescriptors.Items.Select(x => new {
                 Action = x.RouteValues["Action"],
                 Controller = x.RouteValues["Controller"],
-                Name = x.AttributeRouteInfo?.Name,
-                Template = x.AttributeRouteInfo?.Template
+                x.AttributeRouteInfo?.Name,
+                x.AttributeRouteInfo?.Template
             }).ToList();
             return Ok(routes);
         }
