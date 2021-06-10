@@ -25,7 +25,8 @@ namespace Data.Repositories
         {
             return base.GetQueryBase()
                 .Include(b => b.Cf)
-                .Include(b => b.Headers);
+                .Include(b => b.Headers)
+                .Include(b => b.Url);
         }
 
         public override async Task<HttpRequest> Add(HttpRequest request)
