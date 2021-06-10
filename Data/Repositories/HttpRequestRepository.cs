@@ -9,10 +9,16 @@ namespace Data.Repositories
     internal class HttpRequestRepository : RepositoryBase<HttpRequest>, IHttpRequestRepository
     {
         private readonly IHttpHeaderRepository _httpHeaderRepository;
+        private readonly IRequestUrlRepository _requestUrlRepository;
 
-        public HttpRequestRepository(ApplicationContext repositoryContext, IHttpHeaderRepository httpHeaderRepository) : base(repositoryContext)
+        public HttpRequestRepository(
+            ApplicationContext repositoryContext, 
+            IHttpHeaderRepository httpHeaderRepository, 
+            IRequestUrlRepository requestUrlRepository
+        ) : base(repositoryContext)
         {
             _httpHeaderRepository = httpHeaderRepository;
+            _requestUrlRepository = requestUrlRepository;
         }
 
         protected override IQueryable<HttpRequest> GetQueryBase()
@@ -24,10 +30,14 @@ namespace Data.Repositories
 
         public override async Task<HttpRequest> Add(HttpRequest request)
         {
-            var headers = request.Headers;
-            request.Headers = null;
+            // Add RequestUrl to database
+            var url = request.Url;
+            request.Url = await _requestUrlRepository.Get(u => u.Url == url.Url) ??
+                          await _requestUrlRepository.Add(url);
 
-            var headersWithId = headers.Select(header =>
+            // Add HttpHeaders to database
+            var headers = request.Headers;
+            request.Headers = headers.Select(header =>
             {
                 var storedHeader = _httpHeaderRepository.Get(
                     h => h.Header == header.Header, 
@@ -35,9 +45,8 @@ namespace Data.Repositories
                 ).Result;
                 
                 return storedHeader ?? _httpHeaderRepository.Add(header).Result;
-            });
-
-            request.Headers = headersWithId.ToList();
+            }).ToList();
+            
             
             return await base.Add(request);
         }

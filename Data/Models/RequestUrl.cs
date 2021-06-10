@@ -6,18 +6,15 @@ using Newtonsoft.Json;
 
 namespace Data.Models
 {
-    [Index(nameof(Header), nameof(Value), IsUnique = true)]
-
-    public class HttpHeader : IEntity
+    [Index(nameof(Url), IsUnique = true)]
+    public class RequestUrl : IEntity
     {
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Header { get; set; }
-        [Required]
-        public string Value { get; set; }
+        public string Url { get; set; }
 
         [JsonIgnore]
-        public virtual List<HttpRequest> HttpRequests { get; set; }
+        public virtual List<HttpRequest> Requests { get; set; }
     }
 }

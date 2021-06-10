@@ -16,12 +16,12 @@ namespace API.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable>> RequestsPerCountry()
+        public async Task<ActionResult<IEnumerable>> RequestsPerCountry() => Ok(await _repositoryWrapper.Statistics.RequestsPerCountry());
+
+        [HttpGet]
+        public async Task<ActionResult> MostDownloadedFiles()
         {
-            var headers = await _repositoryWrapper.Statistics.RequestsPerCountry();
-
-
-            return Ok(headers);
+            return Ok();
         }
     }
 }

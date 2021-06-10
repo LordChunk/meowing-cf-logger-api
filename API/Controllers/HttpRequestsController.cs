@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
+    [Route("[controller]")]
     public class HttpRequestsController : ControllerBase
     {
         private readonly RepositoryWrapper _repositoryWrapper;
@@ -72,7 +73,7 @@ namespace API.Controllers
 
         private static HttpRequest ConvertDtoToModel(HttpRequestDto dto)
         {
-            var model = new HttpRequest()
+            var model = new HttpRequest
             {
                 Body = dto.Body,
                 BodyUsed = dto.BodyUsed,
@@ -83,7 +84,7 @@ namespace API.Controllers
                 Id = dto.Id,
                 Method = dto.Method,
                 Redirect = dto.Redirect,
-                Url = dto.Url,
+                Url = new RequestUrl { Url = dto.Url },
             };
 
             var headerList = new List<HttpHeader>();

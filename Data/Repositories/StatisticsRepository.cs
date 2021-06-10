@@ -20,7 +20,7 @@ namespace Data.Repositories
                 .Select(h => new
                 {
                     country = h.Value,
-                    count = h.HttpRequest.Count
+                    count = h.HttpRequests.Count
                 })
                 .OrderByDescending(d => d.count)
                 .ToListAsync();

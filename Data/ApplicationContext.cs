@@ -23,10 +23,16 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Set one to many relationship between HttpHeader and HttpRequest
+            // Set many to many relationship between HttpHeader and HttpRequest
             modelBuilder.Entity<HttpHeader>()
-                .HasMany(h => h.HttpRequest)
+                .HasMany(h => h.HttpRequests)
                 .WithMany(r => r.Headers);
+
+            // Set one to many relationship between HttpRequest and RequestUrl
+            modelBuilder.Entity<HttpRequest>()
+                .HasOne(r => r.Url)
+                .WithMany(u => u.Requests)
+                .HasForeignKey(r => r.UrlId);
 
             // Add DateTime value to HttpRequestLog
             modelBuilder.Entity<HttpRequestLog>()
