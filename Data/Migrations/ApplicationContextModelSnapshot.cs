@@ -176,7 +176,7 @@ namespace Data.Migrations
                     b.HasIndex("Url")
                         .IsUnique();
 
-                    b.ToTable("RequestUrl");
+                    b.ToTable("RequestUrls");
                 });
 
             modelBuilder.Entity("Data.Models.TlsClientAuth", b =>

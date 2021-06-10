@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Linq;
 using System.Threading.Tasks;
 using Data;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +18,6 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable>> RequestsPerCountry() => Ok(await _repositoryWrapper.Statistics.RequestsPerCountry());
 
         [HttpGet]
-        public async Task<ActionResult> MostDownloadedFiles()
-        {
-            return Ok();
-        }
+        public async Task<ActionResult<IEnumerable>> RequestsPerUrl() => Ok(await _repositoryWrapper.Statistics.RequestsPerUrl());
     }
 }

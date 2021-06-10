@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210610183351_Initial")]
+    [Migration("20210610185250_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -178,7 +178,7 @@ namespace Data.Migrations
                     b.HasIndex("Url")
                         .IsUnique();
 
-                    b.ToTable("RequestUrl");
+                    b.ToTable("RequestUrls");
                 });
 
             modelBuilder.Entity("Data.Models.TlsClientAuth", b =>

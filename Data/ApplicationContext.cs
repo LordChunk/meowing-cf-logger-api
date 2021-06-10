@@ -12,6 +12,7 @@ namespace Data
         public DbSet<HttpRequestLog> HttpRequestLog { get; set; }
         public DbSet<TlsClientAuth> TlsClientAuths { get; set; }
         public DbSet<TlsExportedAuthenticator> TlsExportedAuthenticators { get; set; }
+        public DbSet<RequestUrl> RequestUrls { get; set; }
 
         public ApplicationContext(DbContextOptions options) : base(options)
         {

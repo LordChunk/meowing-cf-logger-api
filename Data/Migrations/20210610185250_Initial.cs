@@ -22,7 +22,7 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RequestUrl",
+                name: "RequestUrls",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -31,7 +31,7 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RequestUrl", x => x.Id);
+                    table.PrimaryKey("PK_RequestUrls", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,9 +135,9 @@ namespace Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_HttpRequests_RequestUrl_UrlId",
+                        name: "FK_HttpRequests_RequestUrls_UrlId",
                         column: x => x.UrlId,
-                        principalTable: "RequestUrl",
+                        principalTable: "RequestUrls",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -224,8 +224,8 @@ namespace Data.Migrations
                 column: "UrlId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RequestUrl_Url",
-                table: "RequestUrl",
+                name: "IX_RequestUrls_Url",
+                table: "RequestUrls",
                 column: "Url",
                 unique: true);
         }
@@ -248,7 +248,7 @@ namespace Data.Migrations
                 name: "CfHttpHeaders");
 
             migrationBuilder.DropTable(
-                name: "RequestUrl");
+                name: "RequestUrls");
 
             migrationBuilder.DropTable(
                 name: "TlsClientAuths");

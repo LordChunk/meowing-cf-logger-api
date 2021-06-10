@@ -25,5 +25,17 @@ namespace Data.Repositories
                 .OrderByDescending(d => d.count)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable> RequestsPerUrl()
+        {
+            return await _context.RequestUrls
+                .Select(u => new
+                {
+                    url = u.Url,
+                    count = u.Requests.Count
+                })
+                .OrderByDescending(d => d.count)
+                .ToListAsync();
+        }
     }
 }
