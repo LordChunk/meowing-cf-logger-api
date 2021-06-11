@@ -2,7 +2,7 @@
 
 namespace API.Controllers
 {
-    [Route("[controller]/{action}")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class ControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
     {

@@ -34,6 +34,7 @@ namespace API
             services.ConfigureRepositoryWrapper();
 
             services.AddControllers().AddNewtonsoftJson();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +48,13 @@ namespace API
             //{
             //    app.UseHttpsRedirection();
             //}
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Meowing CF Logger API");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseCors("CorsPolicy");
 
