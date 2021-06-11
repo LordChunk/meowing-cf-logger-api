@@ -24,7 +24,7 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<HttpRequest>>> GetHttpRequests() => await _repositoryWrapper.HttpRequest.GetAll();
 
         // GET: api/HttpRequests/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<HttpRequest>> GetHttpRequest(int id)
         {
             var httpRequest = await _repositoryWrapper.HttpRequest.Get(r => r.Id == id);
@@ -37,7 +37,7 @@ namespace API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [Authorize]
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> PutHttpRequest(int id, HttpRequest httpRequest)
         {
             if (id != httpRequest.Id) return BadRequest();
@@ -61,7 +61,7 @@ namespace API.Controllers
 
         // DELETE: api/HttpRequests/5
         [Authorize]
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<HttpRequest>> DeleteHttpRequest(int id)
         {
             var httpRequest = await _repositoryWrapper.HttpRequest.Get(r => r.Id == id);
@@ -70,6 +70,10 @@ namespace API.Controllers
 
             return httpRequest;
         }
+
+        [HttpGet("recent/{count:int}")]
+        public async Task<ActionResult<List<HttpRequest>>> GetRecent(int count = 100) => 
+            await _repositoryWrapper.HttpRequest.GetRecentRequests(count);
 
         private static HttpRequest ConvertDtoToModel(HttpRequestDto dto)
         {

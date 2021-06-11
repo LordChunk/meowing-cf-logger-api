@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Data.Models;
 using Data.Repositories.Common;
@@ -51,5 +52,8 @@ namespace Data.Repositories
             
             return await base.Add(request);
         }
+
+        public async Task<List<HttpRequest>> GetRecentRequests(int count) => 
+            await GetQueryBase().OrderByDescending(r => r.Id).Take(count).ToListAsync();
     }
 }
