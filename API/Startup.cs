@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sentry.AspNetCore;
 
 namespace API
 {
@@ -44,10 +45,11 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
-            //else
-            //{
-            //    app.UseHttpsRedirection();
-            //}
+            else
+            {
+                //app.UseHttpsRedirection();
+                app.UseSentryTracing();
+            }
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
