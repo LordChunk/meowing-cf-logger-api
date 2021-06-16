@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Dto;
 using Data;
@@ -88,7 +89,7 @@ namespace API.Controllers
                 Id = dto.Id,
                 Method = dto.Method,
                 Redirect = dto.Redirect,
-                Url = new RequestUrl { Url = dto.Url },
+                Url = new RequestUrl { Url =  dto.Url.Split("?")[0]  },
             };
 
             var headerList = new List<HttpHeader>();
