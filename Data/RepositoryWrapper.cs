@@ -6,7 +6,6 @@ namespace Data
     {
         private readonly ApplicationContext _repositoryContext;
 
-        private CfHttpHeaderRepository _cfHttpHeader;
         private HttpHeaderRepository _httpHeader;
         private HttpRequestRepository _httpRequest;
         private TlsClientAuthRepository _tlsClientAuth;
@@ -14,7 +13,6 @@ namespace Data
         private IRequestUrlRepository _requestUrl;
         private StatisticsRepository _statisticsRepository;
 
-        public ICfHttpHeaderRepository CfHttpHeader => _cfHttpHeader ??= new CfHttpHeaderRepository(_repositoryContext);
         public IHttpHeaderRepository HttpHeader => _httpHeader ??= new HttpHeaderRepository(_repositoryContext);
         public IHttpRequestRepository HttpRequest => _httpRequest ??= new HttpRequestRepository(_repositoryContext, HttpHeader, RequestUrl);
         public ITlsClientAuthRepository TlsClientAuth => _tlsClientAuth ??= new TlsClientAuthRepository(_repositoryContext);

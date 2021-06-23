@@ -82,7 +82,6 @@ namespace API.Controllers
             {
                 Body = dto.Body,
                 BodyUsed = dto.BodyUsed,
-                Cf = dto.Cf,
                 ContentLength = dto.ContentLength,
                 Fetchers = dto.Fetchers,
                 //Headers = 

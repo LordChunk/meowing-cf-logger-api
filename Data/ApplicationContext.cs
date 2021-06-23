@@ -6,7 +6,6 @@ namespace Data
     public class ApplicationContext : DbContext
     {
         // DbSets
-        public DbSet<CfHttpHeader> CfHttpHeaders { get; set; }
         public DbSet<HttpHeader> HttpHeaders { get; set; }
         public DbSet<HttpRequest> HttpRequests { get; set; }
         public DbSet<HttpRequestLog> HttpRequestLog { get; set; }

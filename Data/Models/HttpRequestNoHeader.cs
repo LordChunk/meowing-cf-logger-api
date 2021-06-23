@@ -5,7 +5,6 @@ namespace Data.Models
 {
     public abstract class HttpRequestNoHeader : EntityBase
     {
-        public CfHttpHeader Cf { get; set; }
         [Required]
         public string Method { get; set; }
         public string Body { get; set; }
