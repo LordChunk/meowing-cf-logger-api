@@ -9,7 +9,6 @@ namespace Data
         public DbSet<HttpHeader> HttpHeaders { get; set; }
         public DbSet<HttpRequest> HttpRequests { get; set; }
         public DbSet<HttpRequestLog> HttpRequestLog { get; set; }
-        public DbSet<TlsClientAuth> TlsClientAuths { get; set; }
         public DbSet<TlsExportedAuthenticator> TlsExportedAuthenticators { get; set; }
         public DbSet<RequestUrl> RequestUrls { get; set; }
 
