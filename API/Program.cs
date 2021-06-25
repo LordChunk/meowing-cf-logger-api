@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -9,7 +10,14 @@ namespace API
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine($"Starting up app with version: {Assembly.GetEntryAssembly()?.GetName().Version}");
+            var gitVer = Assembly
+                .GetEntryAssembly()!
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                ?.InformationalVersion;
+
+            Console.WriteLine($"App assembly version: {Assembly.GetEntryAssembly()?.GetName().Version}");
+            Console.WriteLine($"App version with commit hash: {gitVer}");
+
             CreateHostBuilder(args).Build().Run();
         }
 
