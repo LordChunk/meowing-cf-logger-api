@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -7,6 +9,7 @@ namespace API
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine($"Starting up app with version: {Assembly.GetEntryAssembly()?.GetName().Version}");
             CreateHostBuilder(args).Build().Run();
         }
 
