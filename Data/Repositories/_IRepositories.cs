@@ -12,6 +12,5 @@ namespace Data.Repositories
     {
         public Task<List<HttpRequest>> GetRecentRequests(int count);
     }
-    public interface ITlsExportedAuthenticatorRepository : IRepository<TlsExportedAuthenticator> { }
     public interface IRequestUrlRepository : IRepository<RequestUrl> { }
 }
