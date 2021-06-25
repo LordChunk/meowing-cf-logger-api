@@ -5,18 +5,14 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 
 
-    <VersionSuffix>1.$([System.DateTime]::UtcNow.ToString(yy.MMdd.hhmmss))</VersionSuffix>
+    <VersionSuffix>1.$([System.DateTime]::UtcNow.ToString(yy.MMdd.hhmm))</VersionSuffix>
     <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
     <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
   </PropertyGroup>
 
   <Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
-    <Exec
-      Command="git describe --long --always --exclude=*"
-      ConsoleToMSBuild="True"
-      IgnoreExitCode="False"
-    >
-      <Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput"/>
+    <Exec Command="git describe --long --always --exclude=*" ConsoleToMSBuild="True" IgnoreExitCode="False">
+      <Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput" />
     </Exec>
   </Target>
 
@@ -25,6 +21,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Sentry.AspNetCore" Version="3.6.0" />
+    <PackageReference Include="Sentry.EntityFramework" Version="3.6.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
