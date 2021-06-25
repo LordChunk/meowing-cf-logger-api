@@ -28,7 +28,7 @@ namespace API
         public static IHostBuilder CreateHostBuilder(string[] args) {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(Directory.GetCurrentDirectory() + "/../API/appsettings.json")
+                .AddJsonFile(Directory.GetCurrentDirectory() + "/appsettings.json")
                 .Build();
 
             return Host.CreateDefaultBuilder(args)
