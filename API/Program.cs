@@ -44,7 +44,7 @@ namespace API
                         // We recommend adjusting this value in production.
                         o.TracesSampleRate = 0.2;
                         o.AddEntityFramework();
-                        o.Debug = true;
+                        o.DiagnosticLevel = SentryLevel.Debug;
                     });
 
                     webBuilder.UseStartup<Startup>();
