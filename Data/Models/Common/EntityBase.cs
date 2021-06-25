@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Data.Models.Common
 {
@@ -6,5 +7,11 @@ namespace Data.Models.Common
     {
         [Required, Key] 
         public int Id { get; set; }
+
+
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented);
+        }
     }
 }
