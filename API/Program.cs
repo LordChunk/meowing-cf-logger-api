@@ -5,6 +5,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Sentry;
 using Sentry.AspNetCore;
 
@@ -44,7 +45,7 @@ namespace API
                         // We recommend adjusting this value in production.
                         o.TracesSampleRate = 0.2;
                         o.AddEntityFramework();
-                        o.DiagnosticLevel = SentryLevel.Debug;
+                        o.MinimumBreadcrumbLevel = LogLevel.Debug;
                     });
 
                     webBuilder.UseStartup<Startup>();
