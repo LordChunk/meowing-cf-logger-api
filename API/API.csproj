@@ -23,6 +23,8 @@
     <PackageReference Include="Sentry.AspNetCore" Version="3.6.0" />
     <PackageReference Include="Sentry.EntityFramework" Version="3.6.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.*" />
+    <PackageReference Include="NLog" Version="4.7.*" />
   </ItemGroup>
 
   <ItemGroup>

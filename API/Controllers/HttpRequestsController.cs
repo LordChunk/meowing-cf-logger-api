@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace API.Controllers
 {
@@ -13,12 +14,11 @@ namespace API.Controllers
     public class HttpRequestsController : ControllerBase
     {
         private readonly RepositoryWrapper _repositoryWrapper;
-        private readonly ILogger<HttpRequestsController> _logger;
+        private static readonly Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public HttpRequestsController(RepositoryWrapper repositoryWrapper, ILogger<HttpRequestsController> logger)
+        public HttpRequestsController(RepositoryWrapper repositoryWrapper)
         {
             _repositoryWrapper = repositoryWrapper;
-            _logger = logger;
         }
 
         // GET: api/HttpRequests
@@ -26,7 +26,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HttpRequest>>> GetHttpRequests()
         {
-            _logger.LogInformation($"Get all request");
+            Logger.Info($"Get all request");
 
             return await _repositoryWrapper.HttpRequest.GetAll();
         }
@@ -35,7 +35,7 @@ namespace API.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<HttpRequest>> GetHttpRequest(int id)
         {
-            _logger.LogInformation($"Get request for id: {id}");
+            Logger.Info($"Get request for id: {id}");
 
             var httpRequest = await _repositoryWrapper.HttpRequest.Get(r => r.Id == id);
             if (httpRequest == null) return NotFound();
@@ -50,7 +50,7 @@ namespace API.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> PutHttpRequest(int id, HttpRequest httpRequest)
         {
-            _logger.LogInformation($"Put request for id: {id}");
+            Logger.Info($"Put request for id: {id}");
 
             if (id != httpRequest.Id) return BadRequest();
             var result = await _repositoryWrapper.HttpRequest.Update(httpRequest);
@@ -65,13 +65,13 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<HttpRequest>> PostHttpRequest(HttpRequestDto dto)
         {
-            _logger.LogInformation($"Post request for DTO");
-            _logger.LogDebug(dto.ToString());
+            Logger.Info($"Post request for DTO");
+            Logger.Debug(dto.ToString());
 
             var httpRequest = ConvertDtoToModel(dto);
             await _repositoryWrapper.HttpRequest.Add(httpRequest);
 
-            _logger.LogInformation($"Request added to db with id: {httpRequest.Id}");
+            Logger.Info($"Request added to db with id: {httpRequest.Id}");
 
             return CreatedAtAction("GetHttpRequest", new { id = httpRequest.Id }, httpRequest);
         }
@@ -81,7 +81,7 @@ namespace API.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<HttpRequest>> DeleteHttpRequest(int id)
         {
-            _logger.LogInformation($"Delete request for id: {id}");
+            Logger.Info($"Delete request for id: {id}");
 
             var httpRequest = await _repositoryWrapper.HttpRequest.Get(r => r.Id == id);
             if (httpRequest == null) return NotFound();
@@ -96,7 +96,7 @@ namespace API.Controllers
 
         private HttpRequest ConvertDtoToModel(HttpRequestDto dto)
         {
-            _logger.LogInformation($"Converting DTO to model");
+            Logger.Info($"Converting DTO to model");
 
             var model = new HttpRequest
             {
@@ -112,7 +112,7 @@ namespace API.Controllers
             };
 
 
-            _logger.LogInformation($"Converting DTO header list to model header list");
+            Logger.Info($"Converting DTO header list to model header list");
 
             var headerList = new List<HttpHeader>();
 
@@ -127,8 +127,8 @@ namespace API.Controllers
 
             model.Headers = headerList;
 
-            _logger.LogInformation($"Converted DTO to model");
-            _logger.LogDebug(model.ToString());
+            Logger.Info($"Converted DTO to model");
+            Logger.Debug(model.ToString());
 
             return model;
         }

@@ -1,13 +1,12 @@
 using System;
-using System.Configuration;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 using Sentry;
-using Sentry.AspNetCore;
 
 namespace API
 {
@@ -23,7 +22,23 @@ namespace API
             Console.WriteLine($"App assembly version: {Assembly.GetEntryAssembly()?.GetName().Version}");
             Console.WriteLine($"App version with commit hash: {gitVer}");
 
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            try
+            {
+                logger.Debug("init main");
             CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception exception)
+            {
+                //NLog: catch setup errors
+                logger.Error(exception, "Stopped program because of exception");
+                throw;
+            }
+            finally
+            {
+                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                NLog.LogManager.Shutdown();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) {
@@ -49,6 +64,11 @@ namespace API
                     });
 
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.SetMinimumLevel(LogLevel.Trace);
                 });
         }
     }
