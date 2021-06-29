@@ -10,8 +10,6 @@ namespace Data.Models
 
     public class HttpHeader : EntityBase
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string Header { get; set; }
         [Required]

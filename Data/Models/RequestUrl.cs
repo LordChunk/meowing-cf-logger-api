@@ -9,8 +9,6 @@ namespace Data.Models
     [Index(nameof(Url), IsUnique = true)]
     public class RequestUrl : EntityBase
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string Url { get; set; }
 
