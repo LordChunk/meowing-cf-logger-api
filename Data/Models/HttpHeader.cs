@@ -8,7 +8,7 @@ namespace Data.Models
 {
     [Index(nameof(Header), nameof(Value), IsUnique = true)]
 
-    public class HttpHeader : IEntity
+    public class HttpHeader : EntityBase
     {
         [Key]
         public int Id { get; set; }

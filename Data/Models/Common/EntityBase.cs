@@ -11,7 +11,7 @@ namespace Data.Models.Common
 
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
     }
 }

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace Data.Models
 {
     [Index(nameof(Url), IsUnique = true)]
-    public class RequestUrl : IEntity
+    public class RequestUrl : EntityBase
     {
         [Key]
         public int Id { get; set; }
