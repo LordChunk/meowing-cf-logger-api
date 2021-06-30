@@ -5,10 +5,10 @@ using Microsoft.Extensions.Logging;
 
 namespace HttpRequest
 {
-    public static class Function1
+    public class Function1
     {
         [Function("Function1")]
-        public static HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
+        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
             FunctionContext executionContext)
         {
             var logger = executionContext.GetLogger("Function1");

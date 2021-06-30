@@ -11,6 +11,7 @@ namespace HttpRequest
         {
             var host = new HostBuilder()
                 .ConfigureFunctionsWorkerDefaults()
+                .ConfigureServices(Startup.ConfigureServices)
                 .Build();
 
             host.Run();
