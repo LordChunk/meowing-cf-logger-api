@@ -1,23 +1,30 @@
 using System.Net;
+using System.Threading.Tasks;
+using Data;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace HttpRequest
 {
     public class Function1
     {
-        [Function("Function1")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
-            FunctionContext executionContext)
+        private readonly RepositoryWrapper _repositoryWrapper;
+
+        public Function1(RepositoryWrapper repositoryWrapper)
         {
-            var logger = executionContext.GetLogger("Function1");
-            logger.LogInformation("C# HTTP trigger function processed a request.");
+            _repositoryWrapper = repositoryWrapper;
+        }
+
+        [Function("Function1")]
+        public async Task<HttpResponseData> GetRecent(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
+            FunctionContext executionContext
+        ) {
+            var requests = await _repositoryWrapper.HttpRequest.GetRecentRequests(2);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
-
-            response.WriteString("Welcome to Azure Functions!");
+            await response.WriteStringAsync(JsonConvert.SerializeObject(requests));
 
             return response;
         }
