@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Data.Models;
-using Data.Repositories.Common;
+using Interface.Models;
 
-namespace Data.Repositories
+namespace Interface.Data
 {
     public interface IHttpHeaderRepository : IRepository<HttpHeader> { }
     public interface IHttpRequestLogRepository : IRepository<HttpRequestLog> { }

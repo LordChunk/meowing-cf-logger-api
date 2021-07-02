@@ -1,4 +1,4 @@
-﻿namespace Data.Models.Common
+﻿namespace Interface.Models.Common
 {
     public interface IEntity
     {

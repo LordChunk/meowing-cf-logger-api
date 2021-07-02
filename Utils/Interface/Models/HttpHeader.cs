@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Data.Models.Common;
+using System.Text.Json.Serialization;
+using Interface.Models.Common;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
-namespace Data.Models
+namespace Interface.Models
 {
     [Index(nameof(Header), nameof(Value), IsUnique = true)]
 

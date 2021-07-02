@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Data.Models;
+using Interface.Models;
 
 namespace API.Dto
 {

@@ -1,5 +1,6 @@
-﻿using Data.Models;
-using Data.Repositories.Common;
+﻿using Data.Repositories.Common;
+using Interface.Data;
+using Interface.Models;
 
 namespace Data.Repositories
 {

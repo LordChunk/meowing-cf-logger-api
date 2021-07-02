@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Data.Models.Common;
+using Interface.Models.Common;
 
-namespace Data.Models
+namespace Interface.Models
 {
     public abstract class HttpRequestNoHeader : EntityBase
     {

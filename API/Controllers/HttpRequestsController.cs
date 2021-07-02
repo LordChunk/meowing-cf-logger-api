@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using API.Dto;
 using Data;
+using Interface.Models;
 using Microsoft.AspNetCore.Mvc;
-using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 

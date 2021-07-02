@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Data.Models.Common;
+using Interface.Models.Common;
 
-namespace Data.Models
+namespace Interface.Models
 {
     public class HttpRequestLog : EntityBase
     {

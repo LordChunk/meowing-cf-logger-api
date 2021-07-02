@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
+using Interface.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories
 {
-    public class StatisticsRepository
+    public class StatisticsRepository : IStatisticsRepository
     {
         private readonly ApplicationContext _context;
 
